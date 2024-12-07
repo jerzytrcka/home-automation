@@ -12,12 +12,13 @@ class HardwareManager():
         self.model = model
         
         self.thermometer = thermometer.SerialManager() 
-        self.configure_heater()
+        # Uncomment this for gui mode
+        # self.configure_heater()
 
     def listen_for_update(self):
         """ Checks for updates from the arduino and calls the appropriate function based on the message received """
         temperature = self.thermometer.get_temperature()
-
+        print("Temperature: ", temperature)
         if temperature is None:
             return
         elif temperature < self.model.get_min():

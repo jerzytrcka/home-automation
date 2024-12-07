@@ -20,6 +20,12 @@ if __name__ == "__main__":
 
     else:
         print("Running in CLI mode")
+        email = input("Enter email: ")
+        data_model.set_email(email)
+        pwd = input("Enter password: ")
+        data_model.set_password(pwd)
+        hardware_manager.configure_heater()
+
         while True:
             hardware_manager.listen_for_update()
             time.sleep(3)
