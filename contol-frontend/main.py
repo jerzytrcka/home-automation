@@ -1,27 +1,25 @@
 import tkinter as tk
-import serial_manager
+from MVC import view, model
+import hardware_manager
 
-class MainApplication(tk.Frame):
-    def __init__(self, parent):
-        tk.Frame.__init__(self, parent)
-        self.parent = parent
+# For CLI mode
+import time
 
-        # Following lines for testing
-        self.label = tk.Label(self, text="Hello, world!")
-        self.label.pack()
-        self.debugBtn = tk.Button(self, text="Debug")
-        self.debugBtn.pack()        
-
-        self.assign_commands()
-
-    def assign_commands(self):
-        '''Assign appropriate commands to buttons'''
-        
-        # For testing
-        ser = serial_manager.SerialManager()
-        self.debugBtn.configure(command=lambda: ser.send_serial("Hello, world!"))
+# Set to True to run in GUI mode. For now, set to False to run in CLI mode
+guiMode = False
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    MainApplication(root).pack(side="top", fill="both", expand=True)
-    root.mainloop()
+    data_model = model.DataModel()
+    hardware_manager = hardware_manager.HardwareManager(data_model, view)
+
+    # TODO: At the end make sure to schedule the update function
+    if guiMode:
+        root = tk.Tk()
+        view.MainApplication(root).pack(side="top", fill="both", expand=True)
+        root.mainloop()
+
+    else:
+        print("Running in CLI mode")
+        while True:
+            hardware_manager.listen_for_update()
+            time.sleep(3)
