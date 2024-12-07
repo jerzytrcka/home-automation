@@ -3,7 +3,7 @@ from MVC import view, model
 import hardware_manager
 
 # For CLI mode
-import time
+import time, os
 
 # Set to True to run in GUI mode. For now, set to False to run in CLI mode
 guiMode = False
@@ -27,5 +27,6 @@ if __name__ == "__main__":
         hardware_manager.configure_heater()
 
         while True:
+            os.system('cls' if os.name == 'nt' else 'clear')
             hardware_manager.listen_for_update()
             time.sleep(3)
