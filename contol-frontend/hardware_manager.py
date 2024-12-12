@@ -3,10 +3,17 @@ from hardware_interfaces import serial_manager as thermometer
 from hardware_interfaces import smart_plug as heater
 
 class HardwareManager():
-
+    """
+    Manages the interaction between hardware components with respect to the behaviour specified
+    by the model. 
+    """
     def __init__(self, model, view=None):
-        """ Initializes the hardware manager with the given model and view.
+        """ 
+        Initializes the hardware manager with the given model and view.
         :param view: None by default, if running in GUI mode this should be set to the GUI object.
+        :type view: An object of class view from MVC
+        :param model: An instance of the model used by MVC
+        :type model: An object of class model from MVC
         """
         # TODO docstring
         self.model = model
