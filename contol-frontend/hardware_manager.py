@@ -18,7 +18,7 @@ class HardwareManager():
         # TODO docstring
         self.model = model
         
-        self.thermometer = thermometer.SerialManager() 
+        self.thermometer = thermometer.SerialManager(fallback_method=self.no_serial) 
         # Uncomment this for gui mode
         # self.configure_heater()
 
@@ -39,4 +39,8 @@ class HardwareManager():
         data = self.model.get_heater_data()
         self.heater = heater.SmartPlug()
         self.heater.configure(data)
+    
+    def no_serial(self):
+        ''' Notifies the user that serial is unavailable. Called by serial manager '''
+        print("Serial communication failed. Please check the connection.")
         
