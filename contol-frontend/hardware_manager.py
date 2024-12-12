@@ -15,12 +15,12 @@ class HardwareManager():
         :param model: An instance of the model used by MVC
         :type model: An object of class model from MVC
         """
-        # TODO docstring
         self.model = model
         
-        self.thermometer = thermometer.SerialManager(fallback_method=self.no_serial) 
-        # Uncomment this for gui mode
-        # self.configure_heater()
+        self.thermometer = thermometer.SerialManager(fallback_method=lambda: self.comm_fail("thermometer")) 
+
+        # Uncomment this in GUI mode. In CLI mode this is called in main.py
+        #self.configure_heater()
 
     def listen_for_update(self):
         """ Checks for updates from the arduino and calls the appropriate function based on the message received """
@@ -35,12 +35,12 @@ class HardwareManager():
             self.heater.turn_off()
         
     def configure_heater(self):
-        """ Configures the heater with the given data """
+        """ Initializes the heater with the given data """
         data = self.model.get_heater_data()
-        self.heater = heater.SmartPlug()
-        self.heater.configure(data)
+        self.heater = heater.SmartPlug(fallback_method=lambda: self.comm_fail("heater"))
+        self.heater.initialize(data)
     
-    def no_serial(self):
+    def comm_fail(self, device):
         ''' Notifies the user that serial is unavailable. Called by serial manager '''
-        print("Serial communication failed. Please check the connection.")
+        print(f"Communication with {device} failed. Please check the connection.")
         

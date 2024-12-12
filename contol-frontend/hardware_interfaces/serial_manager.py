@@ -1,21 +1,7 @@
 import serial, time
 
 import serial.serialutil
-
-def verify_initialized(func):
-    ''' Decorator to check if the connection has been initialized. If not, it attempts an initialization.
-    If initialization fails, it calls the fallback method. '''
-
-    def decorator(self, *args, **kwargs):
-        if not self.serial_initialized:
-            self.initialize_serial()
-
-        if self.serial_initialized:
-            return func(*args, **kwargs)
-        else:
-            return self.fallback_method()
-        
-    return decorator
+from hardware_interfaces.init_decorator import verify_initialized
 
 class SerialManager:
     def __init__(self, fallback_method):
@@ -23,7 +9,7 @@ class SerialManager:
             Initialize the SerialManager object.
             :param fallback_method: The method to call if the serial connection is not available upon sending a message.
         """
-        self.serial_initialized = False 
+        self.initialized = False 
 
         self.serial_end_char = b"\\n" # used to indicate end of serial transmission
         self.msg_end_char = '\\' # used to indicate end of message string
@@ -63,11 +49,11 @@ class SerialManager:
         return temperature
 
 
-    def initialize_serial(self):
+    def initialize(self):
         ''' Initializes the serial connection, hardcoded on COM3 for now. Robust against serial exceptions. '''
         try:
             self.ser = serial.Serial('COM3', 9600, timeout=1)
-            self.serial_initialized = True
+            self.initialized = True
 
         except serial.serialutil.SerialException:
-            self.serial_initialized = False
+            self.initialized = False
