@@ -3,7 +3,7 @@
 This repository contains code to control and automatic heater controller, like a thermostat. Currently compatible with an arduino-based ciruit for measuring temperature and Tapo smart plug for controling the heater, but this can be changed for other hardware (see 'contributing' section for how to do this).
 ## Getting started
 ### Dependencies
-To run you will python, and the following libraries:
+To run you will need python, and the following libraries:
 1. pyserial (for communication with an arduino)
 ```python
 pip install pyserial
