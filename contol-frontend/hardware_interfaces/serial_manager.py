@@ -1,22 +1,33 @@
 import serial, time
 
+import serial.serialutil
+from hardware_interfaces.init_decorator import verify_initialized
+
 class SerialManager:
-    def __init__(self):
-        self.ser = serial.Serial('COM3', 9600, timeout=1)
+    def __init__(self, fallback_method):
+        """
+            Initialize the SerialManager object.
+            :param fallback_method: The method to call if the serial connection is not available upon sending a message.
+        """
+        self.initialized = False 
+
         self.serial_end_char = b"\\n" # used to indicate end of serial transmission
-        
         self.msg_end_char = '\\' # used to indicate end of message string
         self.start_char = 'b' # used to indicate start of message
         self.listen_frequency = 1000 # in milliseconds
+        self.fallback_method = fallback_method
 
+        # For now hardcode initialization here, change this for GUI mode
+        self.initialize()
+
+
+    @verify_initialized    
     def send_serial(self, message):
         message = message.encode()
         message += self.end_char
-        #self.ser.write(message)
+        self.ser.write(message)
 
-        # for testing
-        print("Sent message: ", message)
-
+    @verify_initialized
     def read_serial(self):
         # TODO consider adding pre processing here or in a helper function
         message = self.ser.read_until(self.serial_end_char)
@@ -27,6 +38,9 @@ class SerialManager:
         return message
     
     def get_temperature(self):
+        """
+            Read and extract the temperature from the serial port. If the temperature is not recieved correctly, returns None.
+        """
         message = self.read_serial()
         if message is None:
             return None
@@ -37,9 +51,25 @@ class SerialManager:
 
         # Extract the temperature from the message
         temperature = message[start_index:end_index]
-        temperature = float(temperature)
+
+        # If the circuit malfunctions, this returns an error
+        try:
+            temperature = float(temperature)
+        except ValueError:
+            print('Error: Received invalid temperature value. Check the circuit.')
+            return None
+        
         return temperature
 
-    def check_connection(self):
-        # TODO implement this
-        pass
+
+    def initialize(self):
+        ''' Initializes the serial connection, hardcoded on COM3 for now. Robust against serial exceptions. '''
+        try:
+            self.ser = serial.Serial('COM3', 9600, timeout=1)
+            self.initialized = True
+
+        except serial.serialutil.SerialException:
+            self.initialized = False
+
+    def get_initialized(self):
+        return self.initialized

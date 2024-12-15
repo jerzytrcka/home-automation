@@ -1,29 +1,34 @@
 from PyP100 import PyP100
 
+from hardware_interfaces.init_decorator import verify_initialized
+
 class SmartPlug():
     ''' Class to interface with the tapo P110 smart plug '''
-
-    def __init__(self):
+    def __init__(self, fallback_method):
         self.p110 = None
         self.initialized = False
+        self.fallback_method = fallback_method
+    
 
-    def configure(self, data):
-        ''' Initializes the smart plug and configures it '''
-        self.p110 = PyP100.P100(data['ip'], data['email'], data['password'])
-        self.p110.handshake()
-        self.p110.login()
-        self.initialized = True
+    def initialize(self, data):
+        try:
+            self.p110 = PyP100.P100(data['ip'], data['email'], data['password'])
+            self.p110.handshake()
+            self.initialized = True
+        except:
+            self.initialized = False
 
+
+    @verify_initialized
     def turn_on(self):
-        ''' Turns on the smart plug. '''
-        if not self.initialized:
-            raise Exception("Smart plug not initialized")
-        print("Turning on")
+        print("Turning heater on")
         self.p110.turnOn()
 
+
+    @verify_initialized
     def turn_off(self):
-        ''' Turns off the smart plug '''
-        if not self.initialized:
-            raise Exception("Smart plug not initialized")
-        print("Turning off")
+        print("Turning heater off")
         self.p110.turnOff()
+
+    def get_initialized(self):
+        return self.initialized
