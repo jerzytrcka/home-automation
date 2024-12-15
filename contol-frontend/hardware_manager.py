@@ -35,12 +35,11 @@ class HardwareManager():
             self.heater.turn_off()
         
     def configure_heater(self):
-        """ Initializes the heater with the given data """
         data = self.model.get_heater_data()
         self.heater = heater.SmartPlug(fallback_method=lambda: self.comm_fail("heater"))
         self.heater.initialize(data)
     
     def comm_fail(self, device):
-        ''' Notifies the user that serial is unavailable. Called by serial manager '''
+        ''' Notifies the user that device is unavailable. Fallback method for both heater and thermometer. '''
         print(f"Communication with {device} failed. Please check the connection.")
         

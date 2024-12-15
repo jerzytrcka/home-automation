@@ -27,6 +27,6 @@ if __name__ == "__main__":
         hardware_manager.configure_heater()
 
         while True:
-            #os.system('cls' if os.name == 'nt' else 'clear')
+            os.system('cls' if os.name == 'nt' else 'clear') # Comment this for debugging
             hardware_manager.listen_for_update()
             time.sleep(3)

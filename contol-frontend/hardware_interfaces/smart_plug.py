@@ -11,7 +11,6 @@ class SmartPlug():
     
 
     def initialize(self, data):
-        ''' Initializes the smart plug and configures it '''
         try:
             self.p110 = PyP100.P100(data['ip'], data['email'], data['password'])
             self.p110.handshake()
@@ -22,13 +21,14 @@ class SmartPlug():
 
     @verify_initialized
     def turn_on(self):
-        ''' Turns on the smart plug. '''
-        print("Turning on")
+        print("Turning heater on")
         self.p110.turnOn()
 
 
     @verify_initialized
     def turn_off(self):
-        ''' Turns off the smart plug '''
-        print("Turning off")
+        print("Turning heater off")
         self.p110.turnOff()
+
+    def get_initialized(self):
+        return self.initialized

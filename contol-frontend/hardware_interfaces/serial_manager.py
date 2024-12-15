@@ -17,6 +17,9 @@ class SerialManager:
         self.listen_frequency = 1000 # in milliseconds
         self.fallback_method = fallback_method
 
+        # For now hardcode initialization here, change this for GUI mode
+        self.initialize()
+
 
     @verify_initialized    
     def send_serial(self, message):
@@ -35,6 +38,9 @@ class SerialManager:
         return message
     
     def get_temperature(self):
+        """
+            Read and extract the temperature from the serial port. If the temperature is not recieved correctly, returns None.
+        """
         message = self.read_serial()
         if message is None:
             return None
@@ -45,7 +51,14 @@ class SerialManager:
 
         # Extract the temperature from the message
         temperature = message[start_index:end_index]
-        temperature = float(temperature)
+
+        # If the circuit malfunctions, this returns an error
+        try:
+            temperature = float(temperature)
+        except ValueError:
+            print('Error: Received invalid temperature value. Check the circuit.')
+            return None
+        
         return temperature
 
 
@@ -57,3 +70,6 @@ class SerialManager:
 
         except serial.serialutil.SerialException:
             self.initialized = False
+
+    def get_initialized(self):
+        return self.initialized
