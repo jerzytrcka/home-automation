@@ -28,3 +28,7 @@ python main.py
 
 ## Future changes
 I am planning to add a simple GUI which will fix the problem of several values being hardcoded. This is mostly relevant for desired temperature and the IP of the smart plug which are hardcoded.
+## Contributing
+To add support for other hardware you need to write your own classes in place of serialManager and smartPlug. If needed I can provide a static class to show the structure expected by client code. 
+If you have a suggestion or found a bug, feel free to open an issue.
+If you would like to add a feature yourself, please fork the repo or open a pull request. I am happy to help if my code is unclear, don't hesitate to open a discussion!
