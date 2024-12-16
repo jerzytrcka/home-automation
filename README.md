@@ -1,7 +1,7 @@
 # home-automation
 Want your space heater to turn on and off automatically? Then this repo is for you :)
 ## About the project
-This repository contains code to control and automatic heater controller, like a thermostat. Currently compatible with an arduino-based ciruit for measuring temperature and Tapo smart plug for controling the heater, but this can be changed for other hardware (see 'contributing' section for how to do this).
+This repository contains code to control a heater automatically based on thermometer input, similarly to a thermostat. Currently compatible with an arduino-based ciruit for measuring temperature and Tapo smart plug for controling the heater, but this can be changed for other hardware (see 'contributing' section for how to do this).
 ## Getting started
 ### Dependencies
 To run you will need python, and the following libraries:
