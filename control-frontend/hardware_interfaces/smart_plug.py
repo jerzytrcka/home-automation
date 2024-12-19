@@ -1,8 +1,9 @@
 from PyP100 import PyP100
 
 from hardware_interfaces.init_decorator import verify_initialized
+from hardware_interfaces.interfaces import Heater
 
-class SmartPlug():
+class TapoSmartPlug(Heater):
     ''' Class to interface with the tapo P110 smart plug '''
     def __init__(self, fallback_method):
         self.p110 = None

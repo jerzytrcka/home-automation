@@ -2,8 +2,9 @@ import serial
 
 import serial.serialutil
 from hardware_interfaces.init_decorator import verify_initialized
+from hardware_interfaces.interfaces import Thermometer
 
-class SerialManager:
+class SerialThermometer(Thermometer):
     def __init__(self, fallback_method):
         """
             Initialize the SerialManager object.

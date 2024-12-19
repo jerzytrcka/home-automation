@@ -17,7 +17,7 @@ class HardwareManager():
         """
         self.model = model
         
-        self.thermometer = thermometer.SerialManager(fallback_method=lambda: self.comm_fail("thermometer")) 
+        self.thermometer = thermometer.SerialThermometer(fallback_method=lambda: self.comm_fail("thermometer")) 
 
         # Uncomment this in GUI mode. In CLI mode this is called in main.py
         #self.configure_heater()
@@ -36,7 +36,7 @@ class HardwareManager():
         
     def configure_heater(self):
         data = self.model.get_heater_data()
-        self.heater = heater.SmartPlug(fallback_method=lambda: self.comm_fail("heater"))
+        self.heater = heater.TapoSmartPlug(fallback_method=lambda: self.comm_fail("heater"))
         self.heater.initialize(data)
     
     def comm_fail(self, device):
