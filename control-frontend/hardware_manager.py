@@ -1,6 +1,6 @@
 # Replace these imports with custom files for different hardware
-from hardware_interfaces import serial_manager as thermometer 
-from hardware_interfaces import smart_plug as heater
+from hardware_interfaces import serial_thermometer as thermometer 
+from hardware_interfaces import tapo_smart_plug as heater
 
 class HardwareManager():
     """
