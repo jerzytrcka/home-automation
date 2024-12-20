@@ -6,7 +6,7 @@ import hardware_manager
 import time, os, getpass
 
 # Set to True to run in GUI mode. For now, set to False to run in CLI mode
-guiMode = False
+guiMode = True
 
 if __name__ == "__main__":
     data_model = model.DataModel()

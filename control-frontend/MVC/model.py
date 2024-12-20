@@ -1,4 +1,5 @@
 class DataModel:
+    """Stores all preferences used by the program"""
     # TODO - figure out what data needs to be stored in the model and how to do it
     def __init__(self):
         # TODO replace this with data from json
